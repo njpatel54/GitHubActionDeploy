@@ -27,6 +27,8 @@ jobs:
         uses: azure/login@v1
         with: 
          creds: ${{ secrets.AZURE_CREDENTIALS }}
+         environment: 'AzureUSGovernment'
+         enable-AzPSSession: false
       
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout source code
@@ -41,6 +43,5 @@ jobs:
             --name StorageAccountDeployment \
             --resource-group githubdeploy \
             --template-file armtemplates/storageaccount.json \
-            --parameters storageAccountType=Standard_GRS \
-            --environment AzureUSGovernment
+            --parameters storageAccountType=Standard_GRS
           
