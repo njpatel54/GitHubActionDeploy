@@ -17,6 +17,7 @@ on:
 jobs:
 
   lint: 
+    name: Bicep Linter
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -68,6 +69,35 @@ jobs:
                 --location usgovvirginia
 
 
+# This workflow contains a second job called "Deploy"
+  Deploy:
 
+    runs-on: ubuntu-latest
+    environment: Production
+    needs: preview
+    
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # (1) Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it (2) Azure login using az cli
+      - uses: actions/checkout@v2
+      - uses: azure/login@v1
+        name: Login to Azure        
+        with: 
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          environment: 'AzureUSGovernment'
+          enable-AzPSSession: false
+
+      # Runs a set of commands using the runners shell
+      - name: Deploy Bicep template
+        uses: azure/arm-deploy@v1
+        with:
+          deploymentName: ${{ github.run_number }}
+          scope: subscription
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+          # resourceGroupName: ${{ secrets.AZURE_RG }}
+          template: ./main.bicep
+          # parameters: environmentType=${{ env.ENVIRONMENT_TYPE }}
+          region: usgovvirginia
+          failOnStdErr: false
 
 
