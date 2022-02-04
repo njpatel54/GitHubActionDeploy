@@ -40,7 +40,7 @@ jobs:
       with:
         deploymentName: ${{ github.run_number }}
         scope: subscription
-        subscriptionId: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        subscriptionId: ${{ secrets.ARM_SUBSCRIPTION }}
         # resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
         template: ./main.bicep
         # parameters: environmentType=${{ env.ENVIRONMENT_TYPE }}
