@@ -41,5 +41,6 @@ jobs:
             --name StorageAccountDeployment \
             --resource-group githubdeploy \
             --template-file armtemplates/storageaccount.json \
-            --parameters storageAccountType=Standard_GRS
+            --parameters storageAccountType=Standard_GRS \
+            --environment AzureUSGovernment
           
