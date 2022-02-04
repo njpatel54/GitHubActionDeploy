@@ -1,6 +1,6 @@
 param location string = 'usgovvirginia'
-param prodRGName string = 'Production-RG'
-param devRGName string = 'Development-RG'
+param prodRGName string = 'Prod-RG'
+param devRGName string = 'Dev-RG'
 
 // Step-0 == Setting Scope to "Subscription" to create "Resource Groups"
 targetScope = 'subscription'
