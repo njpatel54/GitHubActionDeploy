@@ -39,9 +39,8 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlinescript: |
-            az deployment group create \
-            --name StorageAccountDeployment \
-            --resource-group githubdeploy \
-            --template-file armtemplates/storageaccount.json \
-            --parameters storageAccountType=Standard_GRS
+            az deployment sub create \
+            --name SubDeployment \
+            --location usgovvirginia \
+            --template-file main.bicep
           
