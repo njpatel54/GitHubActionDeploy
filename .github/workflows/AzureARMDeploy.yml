@@ -63,7 +63,7 @@ jobs:
         with:
           inlineScript: |
               az deployment sub what-if \
-                --subscription ${{ secrets.AZURE_SUBSCRIPTION }} \
+                --subscription df3b1809-17d0-47a0-9241-d2724780bdac \
                 --template-file ./main.bicep \
                 --location usgovvirginia
 
