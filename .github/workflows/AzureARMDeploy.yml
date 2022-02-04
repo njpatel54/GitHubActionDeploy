@@ -13,6 +13,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  ARM_SUBSCRIPTIONID: ${{ secrets.ARM_SUBSCRIPTIONID }}
+    
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
@@ -64,7 +67,7 @@ jobs:
         with:
           inlineScript: |
               az account set \
-                --subscription ${{ secrets.AZURE_SUBSCRIPTION }}      
+                --subscription $env:ARM_SUBSCRIPTIONID      
       - uses: Azure/cli@v1
         name: Run what-if
         with:
