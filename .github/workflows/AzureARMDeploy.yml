@@ -63,10 +63,9 @@ jobs:
         with:
           inlineScript: |
               az deployment sub what-if \
-                --subscription ${{ env.AZURE_SUBSCRIPTION }} \
+                --subscription ${{ secrets.AZURE_SUBSCRIPTION }} \
                 --template-file ./main.bicep \
                 --location usgovvirginia
-                --parameters environmentType=${{ env.ENVIRONMENT_TYPE }}
 
 
 
