@@ -24,7 +24,7 @@ jobs:
     steps:
       # Azure login using az cli
       - name: Login to Azure
-        uses: azure/login@v2
+        uses: azure/login@v1
         with: 
          creds: ${{ secrets.AZURE_CREDENTIALS }}
       
@@ -34,12 +34,12 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Deploy ARM Template
-        uses: azure/CLI@v2
+        uses: azure/CLI@v1
         with:
           inlinescript: |
             az deployment group create \
             --name StorageAccountDeployment \
-            --resource-group savdevgithubdeploy \
+            --resource-group githubdeploy \
             --template-file armtemplates/storageaccount.json \
             --parameters storageAccountType=Standard_GRS
           
