@@ -13,9 +13,7 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-env:
-  ARM_SUBSCRIPTIONID: ${{ secrets.ARM_SUBSCRIPTIONID }}
-    
+   
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
@@ -42,7 +40,7 @@ jobs:
       with:
         deploymentName: ${{ github.run_number }}
         scope: subscription
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        subscriptionId: ${{ secrets.ARM_SUBSCRIPTION_ID }}
         # resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
         template: ./main.bicep
         # parameters: environmentType=${{ env.ENVIRONMENT_TYPE }}
@@ -67,7 +65,7 @@ jobs:
         with:
           inlineScript: |
               az account set \
-                --subscription $env:ARM_SUBSCRIPTIONID      
+                --subscription ${{ secrets.ARM_SUBSCRIPTION_ID }}      
       - uses: Azure/cli@v1
         name: Run what-if
         with:
@@ -101,7 +99,7 @@ jobs:
         with:
           deploymentName: ${{ github.run_number }}
           scope: subscription
-          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+          subscriptionId: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           # resourceGroupName: ${{ secrets.AZURE_RG }}
           template: ./main.bicep
           # parameters: environmentType=${{ env.ENVIRONMENT_TYPE }}
