@@ -17,14 +17,14 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
-  Lint: 
+  lint: 
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Run Bicep linter
       run: az bicep build --file ./main.bicep
 
-  Validate: 
+  validate: 
     runs-on: ubuntu-latest
     needs: [lint]
     steps:
@@ -48,7 +48,7 @@ jobs:
         failOnStdErr: false
         deploymentMode: Validate
 
-  Preview:
+  preview:
       runs-on: ubuntu-latest
       needs: [lint, validate]
       steps:
@@ -75,7 +75,7 @@ jobs:
 
 
 # This workflow contains a second job called "Deploy"
-  Deploy:
+  deploy:
 
     runs-on: ubuntu-latest
     environment: Production
