@@ -14,7 +14,7 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   location: location
 }
 
-module vNetModule 'modules/prodVNets.bicep' = if (vNetsModuleDeploy) {
+module vNetModule 'modules/vNets.bicep' = if (vNetsModuleDeploy) {
   name: 'vNetModule-${deployNumber}'
   scope: rg
   params: {
