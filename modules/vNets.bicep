@@ -9,12 +9,14 @@ param bastionSubnetName string = 'AzureBastionSubnet'
 param bastionSubnetAddressPrefix string = '10.7.2.0/26'
 param salesSubnetName string = 'sales-subnet'
 param psalesSubnetAddressPrefix string = '10.7.3.0/24'
+param tagValues object
 
 // Creating Virtual Networks
 
 resource vNet 'Microsoft.Network/virtualNetworks@2021-05-01' = {
   name: vNetName
   location: location
+  tags: tagValues
   properties: {
     addressSpace: {
       addressPrefixes: [

@@ -1,6 +1,7 @@
 param location string
 param nsgName string = 'vmNSG-Test'
 param vNetName string
+param tagValues object
 
 @secure()
 param adminLogin string
@@ -60,6 +61,7 @@ var inboundRules = [
 resource vmPIPs 'Microsoft.Network/publicIPAddresses@2021-05-01' = [for VM in VMs: {
   name: '${VM.name}-pip'
   location: location
+  tags: tagValues
   properties: {
     publicIPAllocationMethod: 'Dynamic'
     dnsSettings: {
@@ -71,6 +73,7 @@ resource vmPIPs 'Microsoft.Network/publicIPAddresses@2021-05-01' = [for VM in VM
 resource vmNSG 'Microsoft.Network/networkSecurityGroups@2020-06-01' = {
   name: nsgName
   location: location
+  tags: tagValues
   properties: {
     securityRules: [for rule in inboundRules: {
         name: rule.name
@@ -91,6 +94,7 @@ resource vmNSG 'Microsoft.Network/networkSecurityGroups@2020-06-01' = {
 resource prodNICs 'Microsoft.Network/networkInterfaces@2020-06-01' = [for VM in VMs: {
   name: '${VM.name}-nic'
   location: location
+  tags: tagValues
   dependsOn: [
     vmPIPs
   ]
@@ -118,6 +122,7 @@ resource prodNICs 'Microsoft.Network/networkInterfaces@2020-06-01' = [for VM in 
 resource prodVMs 'Microsoft.Compute/virtualMachines@2020-06-01' = [for VM in VMs: {
   name: VM.name
   location: location
+  tags: tagValues
   dependsOn: [
     vmPIPs
     prodNICs
@@ -139,6 +144,7 @@ resource prodVMs 'Microsoft.Compute/virtualMachines@2020-06-01' = [for VM in VMs
         version: 'latest'
       }
       osDisk: {
+        name: '${VM.name}-osdisk'
         createOption: 'FromImage'
         managedDisk: {
           storageAccountType: 'StandardSSD_LRS'
@@ -150,6 +156,7 @@ resource prodVMs 'Microsoft.Compute/virtualMachines@2020-06-01' = [for VM in VMs
           diskSizeGB: disk
           lun: i
           createOption: 'Empty'
+          
       }]
     }
     networkProfile: {

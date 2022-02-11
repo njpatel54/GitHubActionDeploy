@@ -1,7 +1,7 @@
 param location string
 param appServicePlanName string = 'myAppServicePlan'
-param frontEndName string = 'fe-nileshpa-11'
-param backEndName string = 'be-nileshpa-11'
+param frontEndName string = 'fe-nileshpa-12'
+param backEndName string = 'be-nileshpa-12'
 param linuxFxVersion string = 'node|14-lts'
 param vNetLinkName string = 'vNetLink-PrivateDNS'
 param webAppPEName string = '${backEndName}-pe'
@@ -10,6 +10,7 @@ param privateLinkServiceConnectionName string = '${backEndName}-pe-connection'
 param vNetIntegrationSubnetId string
 param webAppPESubnetId string
 param vNetId string
+param tagValues object
 
 @description('SKU name, must be minimum P1v2')
 @allowed([
@@ -40,6 +41,7 @@ var skuTier = 'PremiumV2'
 resource appServicePlan 'Microsoft.Web/serverfarms@2020-06-01' = {
   name: appServicePlanName
   location: location
+  tags: tagValues
   properties: {
     reserved: true
   }
@@ -55,6 +57,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2020-06-01' = {
 resource feAppService 'Microsoft.Web/sites@2020-06-01' = {
   name: frontEndName
   location: location
+  tags: tagValues
   properties: {
     serverFarmId: appServicePlan.id
     siteConfig: {
@@ -85,6 +88,7 @@ resource vNetIntegration 'Microsoft.Web/sites/networkConfig@2021-02-01' = {
 resource beAppService 'Microsoft.Web/sites@2020-06-01' = {
   name: backEndName
   location: location
+  tags: tagValues
   properties: {
     serverFarmId: appServicePlan.id
     siteConfig: {
@@ -96,11 +100,13 @@ resource beAppService 'Microsoft.Web/sites@2020-06-01' = {
 resource privateDNSZone 'Microsoft.Network/privateDnsZones@2020-06-01' = {
   name: 'privatelink.azurewebsites.net'
   location: privateDNSZoneLinkLocation
+  tags: tagValues
 }
 
 resource vNetLink 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2020-06-01' = {
   name: '${privateDNSZone.name}/${vNetLinkName}'
   location: privateDNSZoneLinkLocation
+  tags: tagValues
   properties: {
     registrationEnabled: false
     virtualNetwork: {
@@ -112,6 +118,7 @@ resource vNetLink 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2020-06
 resource webAppPE 'Microsoft.Network/privateEndpoints@2021-05-01' = {
   name: webAppPEName
   location: location
+  tags: tagValues
   dependsOn: [
     vNetLink
   ]
