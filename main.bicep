@@ -8,13 +8,15 @@ param vmsModuleDeploy bool = true
 param kvName string = 'testkeyvault609'
 param kvRGName string = 'test'
 
-param baseTime string = utcNow('u')
+
+param dateTime string = utcNow('yyyy-MM-ddTHH:mm:ss')
+//param baseTime string = utcNow('u')
 
 // '-PTH5H' subtracks 5 Hours from UTC time to reflect Eastern Time Zone
-param now string = dateTimeAdd(baseTime, '-PT5H')
+//param now string = dateTimeAdd(baseTime, '-PT5H')
 
 param tagValues object = {
-  createdOn: now
+  createdOn: dateTime
   Environment: 'Production'
 }
 
