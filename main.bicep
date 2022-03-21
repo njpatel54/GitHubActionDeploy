@@ -16,8 +16,9 @@ param dateTime string = utcNow('yyyy-MM-ddTHH:mm:ss')
 //param now string = dateTimeAdd(baseTime, '-PT5H')
 
 param tagValues object = {
-  createdOn: dateTime
+  CreatedOn: dateTime
   Environment: 'Production'
+  CostCenter: '10011'
 }
 
 targetScope = 'subscription'
